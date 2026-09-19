@@ -7,6 +7,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+const careerGoalRoutes = require("./routes/careerGoalRoutes");
+app.use("/api/career-goals", careerGoalRoutes);
+
+const skillRoutes = require("./routes/skillRoutes");
+app.use("/api/skills", skillRoutes);
+
 app.get("/", (req, res) => {
     res.send("SkillPath Backend is Running!");
 });
@@ -16,5 +22,6 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+
 const connectDB = require("./config/db");
 connectDB();
