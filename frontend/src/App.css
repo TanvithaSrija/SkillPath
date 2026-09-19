@@ -1,5 +1,6 @@
 #root {
     width: 100%;
+    min-height: 100vh;
 }
 
 /* =========================
@@ -411,7 +412,6 @@
 }
 
 @media (max-width: 600px) {
-
     .skill-details-page {
         padding: 20px 15px;
     }
@@ -615,7 +615,6 @@
 }
 
 @media (max-width: 600px) {
-
     .career-details-page {
         padding: 20px 15px;
     }

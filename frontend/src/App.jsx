@@ -1,4 +1,5 @@
 import "./App.css";
+
 import {
     BrowserRouter,
     Routes,
@@ -6,6 +7,13 @@ import {
     Navigate
 } from "react-router-dom";
 
+// Member 1 - Authentication
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import Profile from "./pages/Profile";
+import ProtectedRoute from "./components/ProtectedRoute";
+
+// Member 2 - Career Goals & Roadmap
 import CareerGoals from "./pages/CareerGoals";
 import CareerGoalDetails from "./pages/CareerGoalDetails";
 import Roadmap from "./pages/Roadmap";
@@ -14,41 +22,64 @@ import SkillDetails from "./pages/SkillDetails";
 function App() {
     return (
         <BrowserRouter>
-
             <Routes>
 
+                {/* Public Routes */}
+
                 <Route
-                    path="/"
-                    element={
-                        <Navigate
-                            to="/career-goals"
-                            replace
-                        />
-                    }
+                    path="/login"
+                    element={<Login />}
                 />
 
                 <Route
-                    path="/career-goals"
-                    element={<CareerGoals />}
+                    path="/signup"
+                    element={<Signup />}
                 />
 
-                <Route
-                    path="/career-goals/:id"
-                    element={<CareerGoalDetails />}
-                />
+                {/* Protected Routes */}
 
-                <Route
-                    path="/roadmap/:careerGoalId"
-                    element={<Roadmap />}
-                />
+                <Route element={<ProtectedRoute />}>
 
-                <Route
-                    path="/skills/:skillId"
-                    element={<SkillDetails />}
-                />
+                    <Route
+                        path="/profile"
+                        element={<Profile />}
+                    />
+
+                    {/* Member 2 - Career Goals */}
+
+                    <Route
+                        path="/"
+                        element={
+                            <Navigate
+                                to="/career-goals"
+                                replace
+                            />
+                        }
+                    />
+
+                    <Route
+                        path="/career-goals"
+                        element={<CareerGoals />}
+                    />
+
+                    <Route
+                        path="/career-goals/:id"
+                        element={<CareerGoalDetails />}
+                    />
+
+                    <Route
+                        path="/roadmap/:careerGoalId"
+                        element={<Roadmap />}
+                    />
+
+                    <Route
+                        path="/skills/:skillId"
+                        element={<SkillDetails />}
+                    />
+
+                </Route>
 
             </Routes>
-
         </BrowserRouter>
     );
 }
