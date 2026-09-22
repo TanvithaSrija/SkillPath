@@ -15,6 +15,7 @@ import Resources from "./pages/Resources";
 import ResourceDetails from "./pages/ResourceDetails";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Dashboard from "./pages/Dashboard";
+import LearningPlayer from "./pages/LearningPlayer";
 
 // Member 2 - Career Goals & Roadmap
 import CareerGoals from "./pages/CareerGoals";
@@ -58,6 +59,10 @@ function App() {
                     <Route
                         path="/resources/:id"
                         element={<ResourceDetails />}
+                    />
+                    <Route
+                        path="/learn/:id"
+                        element={<LearningPlayer />}
                     />
 
                     {/* Member 2 - Career Goals */}

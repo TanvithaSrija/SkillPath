@@ -113,31 +113,33 @@ function ResourceDetails() {
   // START LEARNING
   // --------------------------------------------------
   const handleStartLearning = async () => {
-    if (!token) {
-      alert("Please login to start learning.");
-      return;
-    }
+  if (!token) {
+    alert("Please login to start learning.");
+    return;
+  }
 
-    try {
-      const data =
-        await progressService.startLearning(
-          id,
-          token
-        );
-
-      setLearningProgress(data.progress);
-    } catch (error) {
-      console.error(
-        "Start learning error:",
-        error
+  try {
+    const data =
+      await progressService.startLearning(
+        id,
+        token
       );
 
-      alert(
-        error.response?.data?.message ||
-          "Unable to start learning."
-      );
-    }
-  };
+    setLearningProgress(data.progress);
+
+    navigate(`/learn/${id}`);
+  } catch (error) {
+    console.error(
+      "Start learning error:",
+      error
+    );
+
+    alert(
+      error.response?.data?.message ||
+        "Unable to start learning."
+    );
+  }
+};
 
   // --------------------------------------------------
   // WISHLIST
