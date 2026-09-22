@@ -1,0 +1,29 @@
+$kind: http-request
+name: http://localhost:5000/api/resources
+description: ""
+url: http://localhost:5000/api/resources
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"title\": \"Coding Interview Practice\",\r
+
+    \  \"description\": \"Practice coding problems commonly used to develop algorithmic thinking and technical interview skills.\",\r
+
+    \  \"url\": \"https://leetcode.com/\",\r
+
+    \  \"platform\": \"LeetCode\",\r
+
+    \  \"type\": \"Practice\",\r
+
+    \  \"skill\": \"Interview Preparation\",\r
+
+    \  \"difficulty\": \"Advanced\",\r
+
+    \  \"isFree\": true,\r
+
+    \  \"thumbnail\": \"\"\r
+
+    }"
+order: 1789836796712

@@ -5,6 +5,9 @@ require("dotenv").config();
 const connectDB = require("./config/db");
 
 const authRoutes = require("./routes/authRoutes");
+const resourceRoutes = require("./routes/resourceRoutes");
+const wishlistRoutes = require("./routes/wishlistRoutes");
+const progressRoutes = require("./routes/progressRoutes");
 const careerGoalRoutes = require("./routes/careerGoalRoutes");
 const skillRoutes = require("./routes/skillRoutes");
 
@@ -13,12 +16,16 @@ const app = express();
 // Connect MongoDB
 connectDB();
 
+
 // Middleware
 app.use(cors());
 app.use(express.json());
 
 // Member 1 - Authentication routes
 app.use("/api/auth", authRoutes);
+app.use("/api/resources", resourceRoutes);
+app.use("/api/wishlist", wishlistRoutes);
+app.use("/api/progress", progressRoutes);
 
 // Member 2 - Career Goal routes
 app.use("/api/career-goals", careerGoalRoutes);

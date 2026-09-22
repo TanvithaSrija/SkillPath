@@ -11,7 +11,10 @@ import {
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Profile from "./pages/Profile";
+import Resources from "./pages/Resources";
+import ResourceDetails from "./pages/ResourceDetails";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Dashboard from "./pages/Dashboard";
 
 // Member 2 - Career Goals & Roadmap
 import CareerGoals from "./pages/CareerGoals";
@@ -43,6 +46,18 @@ function App() {
                     <Route
                         path="/profile"
                         element={<Profile />}
+                    />
+                     <Route
+                        path="/resources"
+                        element={<Resources />}
+                    />
+                    <Route
+                        path="/dashboard"
+                        element={<Dashboard />}
+                    />
+                    <Route
+                        path="/resources/:id"
+                        element={<ResourceDetails />}
                     />
 
                     {/* Member 2 - Career Goals */}
