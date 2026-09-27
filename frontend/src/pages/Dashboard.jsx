@@ -1,19 +1,35 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+
 import { useAuth } from "../context/AuthContext";
+
 import progressService from "../services/progressService";
+import courseService from "../services/courseService";
+import lessonProgressService from "../services/lessonProgressService";
+
 import "../styles/Dashboard.css";
 
 function Dashboard() {
   const { user, token } = useAuth();
 
+  /* ============================================
+     RESOURCE PROGRESS
+  ============================================ */
+
   const [progress, setProgress] = useState([]);
+
+  /* ============================================
+     COURSE PROGRESS
+  ============================================ */
+
+  const [courseProgress, setCourseProgress] = useState([]);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // ============================================
-  // FETCH USER PROGRESS
-  // ============================================
+  /* ============================================
+     FETCH DASHBOARD DATA
+  ============================================ */
 
   const fetchProgress = async () => {
     if (!token) {
@@ -25,73 +41,194 @@ function Dashboard() {
       setLoading(true);
       setError("");
 
-      const data =
+      /* ==========================================
+         1. FETCH RESOURCE PROGRESS
+      ========================================== */
+
+      const resourceData =
         await progressService.getMyProgress(token);
 
-      setProgress(data.progress || []);
+      setProgress(resourceData.progress || []);
+
+      /* ==========================================
+         2. FETCH ALL COURSES
+      ========================================== */
+
+      const courseData =
+        await courseService.getCourses();
+
+      const courses =
+        courseData.courses || [];
+
+      /* ==========================================
+         3. FETCH PROGRESS FOR EACH COURSE
+      ========================================== */
+
+      const courseProgressResults =
+        await Promise.all(
+          courses.map(async (course) => {
+            try {
+              const progressData =
+                await lessonProgressService.getCourseProgress(
+                  course._id,
+                  token
+                );
+
+              return {
+                ...course,
+                courseProgress:
+                  progressData.courseProgress,
+              };
+            } catch (courseError) {
+              console.error(
+                `Failed to fetch progress for ${course.title}:`,
+                courseError
+              );
+
+              return {
+                ...course,
+                courseProgress: null,
+              };
+            }
+          })
+        );
+
+      /* ==========================================
+         4. KEEP ONLY COURSES USER HAS STARTED
+      ========================================== */
+
+      const activeCourses =
+        courseProgressResults.filter(
+          (course) =>
+            course.courseProgress &&
+            course.courseProgress.startedLessons > 0
+        );
+
+      setCourseProgress(activeCourses);
+
     } catch (error) {
       console.error(
         "Failed to fetch dashboard progress:",
         error
       );
 
-      setError("Unable to load your learning data.");
+      setError(
+        "Unable to load your learning data."
+      );
     } finally {
       setLoading(false);
     }
   };
 
+  /* ============================================
+     FETCH WHEN TOKEN CHANGES
+  ============================================ */
+
   useEffect(() => {
     fetchProgress();
   }, [token]);
 
-  // ============================================
-  // CALCULATE STATISTICS
-  // ============================================
+  /* ============================================
+     RESOURCE STATISTICS
+  ============================================ */
 
-  const totalStarted = progress.length;
+  const totalStarted =
+    progress.length;
 
-  const completedCount = progress.filter(
-    (item) => item.status === "Completed"
-  ).length;
+  const completedCount =
+    progress.filter(
+      (item) =>
+        item.status === "Completed"
+    ).length;
 
-  const inProgressCount = progress.filter(
-    (item) => item.status === "In Progress"
-  ).length;
+  const inProgressCount =
+    progress.filter(
+      (item) =>
+        item.status === "In Progress"
+    ).length;
 
   const overallProgress =
     totalStarted === 0
       ? 0
       : Math.round(
           progress.reduce(
-            (sum, item) => sum + (item.progress || 0),
+            (sum, item) =>
+              sum + (item.progress || 0),
             0
           ) / totalStarted
         );
 
-  // ============================================
-  // CONTINUE LEARNING
-  // ============================================
+  /* ============================================
+     COURSE STATISTICS
+  ============================================ */
 
-  const continueLearning = progress
-    .filter(
-      (item) => item.status === "In Progress"
-    )
-    .slice(0, 4);
+  const coursesStarted =
+    courseProgress.length;
 
-  // ============================================
-  // RECENTLY COMPLETED
-  // ============================================
+  const coursesCompleted =
+    courseProgress.filter(
+      (course) =>
+        course.courseProgress?.progress === 100
+    ).length;
 
-  const recentlyCompleted = progress
-    .filter(
-      (item) => item.status === "Completed"
-    )
-    .slice(0, 4);
+  const lessonsCompleted =
+    courseProgress.reduce(
+      (sum, course) =>
+        sum +
+        (course.courseProgress
+          ?.completedLessons || 0),
+      0
+    );
 
-  // ============================================
-  // RENDER
-  // ============================================
+  /* ============================================
+     CONTINUE COURSES
+  ============================================ */
+
+  const continueCourses =
+    courseProgress
+      .filter(
+        (course) =>
+          course.courseProgress?.progress < 100
+      )
+      .slice(0, 3);
+
+  /* ============================================
+     COMPLETED COURSES
+  ============================================ */
+
+  const completedCourses =
+    courseProgress.filter(
+      (course) =>
+        course.courseProgress?.progress === 100
+    );
+
+  /* ============================================
+     CONTINUE RESOURCE LEARNING
+  ============================================ */
+
+  const continueLearning =
+    progress
+      .filter(
+        (item) =>
+          item.status === "In Progress"
+      )
+      .slice(0, 4);
+
+  /* ============================================
+     RECENTLY COMPLETED RESOURCES
+  ============================================ */
+
+  const recentlyCompleted =
+    progress
+      .filter(
+        (item) =>
+          item.status === "Completed"
+      )
+      .slice(0, 4);
+
+  /* ============================================
+     RENDER
+  ============================================ */
 
   return (
     <div className="dashboard-page">
@@ -126,6 +263,7 @@ function Dashboard() {
 
       </section>
 
+
       {/* ======================================
           MAIN CONTENT
       ====================================== */}
@@ -133,38 +271,64 @@ function Dashboard() {
       <main className="dashboard-container">
 
         {loading ? (
+
+          /* ==================================
+             LOADING
+          ================================== */
+
           <div className="dashboard-message">
+
             <div className="dashboard-loader"></div>
+
             <p>
               Loading your learning dashboard...
             </p>
+
           </div>
+
         ) : error ? (
+
+          /* ==================================
+             ERROR
+          ================================== */
+
           <div className="dashboard-message dashboard-error">
+
             <h3>
               Something went wrong
             </h3>
 
-            <p>{error}</p>
+            <p>
+              {error}
+            </p>
 
-            <button onClick={fetchProgress}>
+            <button
+              onClick={fetchProgress}
+            >
               Try Again
             </button>
+
           </div>
+
         ) : (
+
           <>
+
+
             {/* ==================================
-                STATISTICS
+                RESOURCE STATISTICS
             ================================== */}
 
             <section className="dashboard-stats">
 
               <div className="stat-card">
+
                 <div className="stat-icon">
                   📚
                 </div>
 
                 <div>
+
                   <span>
                     Resources Started
                   </span>
@@ -172,16 +336,20 @@ function Dashboard() {
                   <strong>
                     {totalStarted}
                   </strong>
+
                 </div>
+
               </div>
 
 
               <div className="stat-card">
+
                 <div className="stat-icon">
                   🔄
                 </div>
 
                 <div>
+
                   <span>
                     In Progress
                   </span>
@@ -189,16 +357,20 @@ function Dashboard() {
                   <strong>
                     {inProgressCount}
                   </strong>
+
                 </div>
+
               </div>
 
 
               <div className="stat-card">
+
                 <div className="stat-icon">
                   ✓
                 </div>
 
                 <div>
+
                   <span>
                     Completed
                   </span>
@@ -206,16 +378,20 @@ function Dashboard() {
                   <strong>
                     {completedCount}
                   </strong>
+
                 </div>
+
               </div>
 
 
               <div className="stat-card">
+
                 <div className="stat-icon">
                   📈
                 </div>
 
                 <div>
+
                   <span>
                     Overall Progress
                   </span>
@@ -223,14 +399,91 @@ function Dashboard() {
                   <strong>
                     {overallProgress}%
                   </strong>
+
                 </div>
+
               </div>
 
             </section>
 
 
             {/* ==================================
-                OVERALL PROGRESS
+                COURSE STATISTICS
+            ================================== */}
+
+            {coursesStarted > 0 && (
+
+              <section className="dashboard-stats course-stats">
+
+                <div className="stat-card">
+
+                  <div className="stat-icon">
+                    🎓
+                  </div>
+
+                  <div>
+
+                    <span>
+                      Courses Started
+                    </span>
+
+                    <strong>
+                      {coursesStarted}
+                    </strong>
+
+                  </div>
+
+                </div>
+
+
+                <div className="stat-card">
+
+                  <div className="stat-icon">
+                    🏆
+                  </div>
+
+                  <div>
+
+                    <span>
+                      Courses Completed
+                    </span>
+
+                    <strong>
+                      {coursesCompleted}
+                    </strong>
+
+                  </div>
+
+                </div>
+
+
+                <div className="stat-card">
+
+                  <div className="stat-icon">
+                    📖
+                  </div>
+
+                  <div>
+
+                    <span>
+                      Lessons Completed
+                    </span>
+
+                    <strong>
+                      {lessonsCompleted}
+                    </strong>
+
+                  </div>
+
+                </div>
+
+              </section>
+
+            )}
+
+
+            {/* ==================================
+                OVERALL RESOURCE PROGRESS
             ================================== */}
 
             <section className="dashboard-panel">
@@ -238,6 +491,7 @@ function Dashboard() {
               <div className="panel-header">
 
                 <div>
+
                   <span className="panel-label">
                     YOUR JOURNEY
                   </span>
@@ -250,9 +504,12 @@ function Dashboard() {
                     Track how far you've progressed
                     across your learning resources.
                   </p>
+
                 </div>
 
+
                 <div className="overall-circle">
+
                   <strong>
                     {overallProgress}%
                   </strong>
@@ -260,6 +517,7 @@ function Dashboard() {
                   <span>
                     Complete
                   </span>
+
                 </div>
 
               </div>
@@ -280,7 +538,367 @@ function Dashboard() {
 
 
             {/* ==================================
-                CONTINUE LEARNING
+                CONTINUE COURSES
+            ================================== */}
+
+            {continueCourses.length > 0 && (
+
+              <section className="dashboard-section">
+
+                <div className="section-heading">
+
+                  <div>
+
+                    <span className="section-label">
+                      YOUR COURSES
+                    </span>
+
+                    <h2>
+                      Continue Your Courses
+                    </h2>
+
+                    <p>
+                      Continue learning from where
+                      you stopped.
+                    </p>
+
+                  </div>
+
+
+                  <Link
+                    to="/courses"
+                    className="view-all-link"
+                  >
+                    View All Courses →
+                  </Link>
+
+                </div>
+
+
+                <div className="course-dashboard-grid">
+
+                  {continueCourses.map(
+                    (course) => {
+
+                      const progress =
+                        course.courseProgress;
+
+                      return (
+
+                        <article
+                          className="course-dashboard-card"
+                          key={course._id}
+                        >
+
+                          {/* COURSE IMAGE */}
+
+                          <div className="course-dashboard-image">
+
+                            {course.thumbnail ? (
+
+                              <img
+                                src={
+                                  course.thumbnail
+                                }
+                                alt={
+                                  course.title
+                                }
+                              />
+
+                            ) : (
+
+                              <div className="course-dashboard-placeholder">
+                                📘
+                              </div>
+
+                            )}
+
+                          </div>
+
+
+                          {/* COURSE CONTENT */}
+
+                          <div className="course-dashboard-content">
+
+                            <div className="course-dashboard-top">
+
+                              <span className="course-dashboard-skill">
+                                {course.skill}
+                              </span>
+
+                              <span className="course-dashboard-level">
+                                {course.difficulty}
+                              </span>
+
+                            </div>
+
+
+                            <h3>
+                              {course.title}
+                            </h3>
+
+
+                            <p>
+                              {course.description}
+                            </p>
+
+
+                            {/* PROGRESS */}
+
+                            <div className="course-dashboard-progress-header">
+
+                              <span>
+                                Course Progress
+                              </span>
+
+                              <strong>
+                                {progress.progress}%
+                              </strong>
+
+                            </div>
+
+
+                            <div className="course-dashboard-progress">
+
+                              <div
+                                className="course-dashboard-progress-fill"
+                                style={{
+                                  width: `${progress.progress}%`,
+                                }}
+                              ></div>
+
+                            </div>
+
+
+                            <div className="course-dashboard-progress-info">
+
+                              <span>
+                                {
+                                  progress.completedLessons
+                                }{" "}
+                                of{" "}
+                                {
+                                  progress.totalLessons
+                                }{" "}
+                                lessons completed
+                              </span>
+
+                              <span>
+                                {
+                                  progress.startedLessons
+                                }{" "}
+                                started
+                              </span>
+
+                            </div>
+
+
+                            {/* CONTINUE */}
+
+                            <Link
+                              to={`/courses/${course._id}`}
+                              className="course-dashboard-button"
+                            >
+                              Continue Course →
+                            </Link>
+
+                          </div>
+
+                        </article>
+
+                      );
+
+                    }
+                  )}
+
+                </div>
+
+              </section>
+
+            )}
+
+
+            {/* ==================================
+                COMPLETED COURSES
+            ================================== */}
+
+            {completedCourses.length > 0 && (
+
+              <section className="dashboard-section completed-courses-section">
+
+                <div className="section-heading">
+
+                  <div>
+
+                    <span className="section-label">
+                      YOUR ACHIEVEMENTS
+                    </span>
+
+                    <h2>
+                      Completed Courses
+                    </h2>
+
+                    <p>
+                      Courses you have successfully
+                      completed.
+                    </p>
+
+                  </div>
+
+
+                  <Link
+                    to="/courses"
+                    className="view-all-link"
+                  >
+                    View All Courses →
+                  </Link>
+
+                </div>
+
+
+                <div className="course-dashboard-grid">
+
+                  {completedCourses.map(
+                    (course) => {
+
+                      const progress =
+                        course.courseProgress;
+
+                      return (
+
+                        <article
+                          className="course-dashboard-card"
+                          key={course._id}
+                        >
+
+                          {/* COURSE IMAGE */}
+
+                          <div className="course-dashboard-image">
+
+                            {course.thumbnail ? (
+
+                              <img
+                                src={
+                                  course.thumbnail
+                                }
+                                alt={
+                                  course.title
+                                }
+                              />
+
+                            ) : (
+
+                              <div className="course-dashboard-placeholder">
+                                🏆
+                              </div>
+
+                            )}
+
+                          </div>
+
+
+                          {/* COURSE CONTENT */}
+
+                          <div className="course-dashboard-content">
+
+                            <div className="course-dashboard-top">
+
+                              <span className="course-dashboard-skill">
+                                {course.skill}
+                              </span>
+
+                              <span className="course-dashboard-level">
+                                {course.difficulty}
+                              </span>
+
+                            </div>
+
+
+                            <h3>
+                              {course.title}
+                            </h3>
+
+
+                            <p>
+                              {course.description}
+                            </p>
+
+
+                            {/* COMPLETED PROGRESS */}
+
+                            <div className="course-dashboard-progress-header">
+
+                              <span>
+                                Course Progress
+                              </span>
+
+                              <strong>
+                                100%
+                              </strong>
+
+                            </div>
+
+
+                            <div className="course-dashboard-progress">
+
+                              <div
+                                className="course-dashboard-progress-fill"
+                                style={{
+                                  width: "100%",
+                                }}
+                              ></div>
+
+                            </div>
+
+
+                            <div className="course-dashboard-progress-info">
+
+                              <span>
+                                ✓{" "}
+                                {
+                                  progress.completedLessons
+                                }{" "}
+                                of{" "}
+                                {
+                                  progress.totalLessons
+                                }{" "}
+                                lessons completed
+                              </span>
+
+                              <span>
+                                Course Completed
+                              </span>
+
+                            </div>
+
+
+                            {/* REVIEW COURSE */}
+
+                            <Link
+                              to={`/courses/${course._id}`}
+                              className="course-dashboard-button"
+                            >
+                              Review Course →
+                            </Link>
+
+                          </div>
+
+                        </article>
+
+                      );
+
+                    }
+                  )}
+
+                </div>
+
+              </section>
+
+            )}
+
+
+            {/* ==================================
+                RESOURCE CONTINUE LEARNING
             ================================== */}
 
             <section className="dashboard-section">
@@ -288,6 +906,7 @@ function Dashboard() {
               <div className="section-heading">
 
                 <div>
+
                   <span className="section-label">
                     KEEP GOING
                   </span>
@@ -299,7 +918,9 @@ function Dashboard() {
                   <p>
                     Pick up where you left off.
                   </p>
+
                 </div>
+
 
                 <Link
                   to="/resources"
@@ -344,6 +965,7 @@ function Dashboard() {
 
                   {continueLearning.map(
                     (item) => (
+
                       <article
                         className="continue-card"
                         key={item._id}
@@ -398,10 +1020,13 @@ function Dashboard() {
                         <div className="continue-footer">
 
                           <span>
-                            {item.progress}% completed
+                            {item.progress}%
+                            {" "}
+                            completed
                           </span>
 
                           {item.resource?.url && (
+
                             <a
                               href={
                                 item.resource.url
@@ -411,11 +1036,13 @@ function Dashboard() {
                             >
                               Continue →
                             </a>
+
                           )}
 
                         </div>
 
                       </article>
+
                     )
                   )}
 
@@ -427,7 +1054,7 @@ function Dashboard() {
 
 
             {/* ==================================
-                COMPLETED
+                RECENTLY COMPLETED RESOURCES
             ================================== */}
 
             {recentlyCompleted.length > 0 && (
@@ -437,6 +1064,7 @@ function Dashboard() {
                 <div className="section-heading">
 
                   <div>
+
                     <span className="section-label">
                       ACHIEVEMENTS
                     </span>
@@ -449,6 +1077,7 @@ function Dashboard() {
                       Resources you've successfully
                       completed.
                     </p>
+
                   </div>
 
                 </div>
@@ -458,6 +1087,7 @@ function Dashboard() {
 
                   {recentlyCompleted.map(
                     (item) => (
+
                       <div
                         className="completed-card"
                         key={item._id}
@@ -466,6 +1096,7 @@ function Dashboard() {
                         <div className="completed-check">
                           ✓
                         </div>
+
 
                         <div className="completed-info">
 
@@ -481,11 +1112,30 @@ function Dashboard() {
 
                         </div>
 
-                        <span className="completed-badge">
-                          Completed
-                        </span>
+
+                        {/* COMPLETED RESOURCE ACTIONS */}
+
+                        <div className="completed-card-actions">
+
+                          <span className="completed-badge">
+                            Completed
+                          </span>
+
+                          {item.resource?._id && (
+
+                            <Link
+                              to={`/resources/${item.resource._id}`}
+                              className="completed-review-button"
+                            >
+                              Review →
+                            </Link>
+
+                          )}
+
+                        </div>
 
                       </div>
+
                     )
                   )}
 
@@ -506,6 +1156,7 @@ function Dashboard() {
                 🎯
               </div>
 
+
               <div className="career-goal-content">
 
                 <span>
@@ -524,6 +1175,7 @@ function Dashboard() {
 
               </div>
 
+
               <Link
                 to="/profile"
                 className="profile-button"
@@ -534,6 +1186,7 @@ function Dashboard() {
             </section>
 
           </>
+
         )}
 
       </main>
