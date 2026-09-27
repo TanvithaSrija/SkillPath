@@ -16,7 +16,9 @@ import ResourceDetails from "./pages/ResourceDetails";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Dashboard from "./pages/Dashboard";
 import LearningPlayer from "./pages/LearningPlayer";
-
+import Courses from "./pages/Courses";
+import CourseDetails from "./pages/CourseDetails";
+import LessonPlayer from "./pages/LessonPlayer";
 // Member 2 - Career Goals & Roadmap
 import CareerGoals from "./pages/CareerGoals";
 import CareerGoalDetails from "./pages/CareerGoalDetails";
@@ -39,7 +41,18 @@ function App() {
                     path="/signup"
                     element={<Signup />}
                 />
-
+                <Route
+                    path="/courses"
+                    element={<Courses />}
+                />
+                <Route
+                    path="/courses/:id"
+                    element={<CourseDetails />}
+                />
+                <Route
+                    path="/lessons/:id"
+                    element={<LessonPlayer />}
+                />
                 {/* Protected Routes */}
 
                 <Route element={<ProtectedRoute />}>
