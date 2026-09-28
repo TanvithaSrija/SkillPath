@@ -1,0 +1,518 @@
+/* =========================================
+   NOTES PAGE
+========================================= */
+
+.notes-page {
+    min-height: 100vh;
+    padding: 32px 40px 60px;
+    background: #f6f8fc;
+    color: #172033;
+    box-sizing: border-box;
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.notes-header {
+    margin-bottom: 30px;
+}
+
+.notes-back {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 10px;
+
+    color: #526581;
+    text-decoration: none;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    transition: 0.2s ease;
+}
+
+.notes-back:hover {
+    color: #2563eb;
+}
+
+.notes-header h1 {
+    margin: 0;
+
+    color: #172033;
+
+    font-size: 34px;
+    line-height: 1.2;
+    font-weight: 750;
+    letter-spacing: -0.6px;
+}
+
+.notes-header p {
+    margin: 8px 0 0;
+
+    color: #64748b;
+    font-size: 16px;
+}
+
+/* =========================================
+   MESSAGES
+========================================= */
+
+.notes-success,
+.notes-error {
+    margin-bottom: 20px;
+    padding: 13px 17px;
+
+    border-radius: 11px;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.notes-success {
+    border: 1px solid #bbf7d0;
+    background: #f0fdf4;
+    color: #15803d;
+}
+
+.notes-error {
+    border: 1px solid #fecaca;
+    background: #fef2f2;
+    color: #b91c1c;
+}
+
+/* =========================================
+   NOTES EDITOR
+========================================= */
+
+.notes-editor {
+    max-width: 900px;
+    margin-bottom: 40px;
+
+    padding: 28px;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+
+    background: #ffffff;
+
+    box-shadow: 0 8px 25px rgba(15, 23, 42, 0.06);
+}
+
+.editor-header {
+    margin-bottom: 24px;
+}
+
+.editor-header h2 {
+    margin: 0;
+
+    color: #172033;
+
+    font-size: 22px;
+    font-weight: 750;
+}
+
+/* =========================================
+   FORM
+========================================= */
+
+.notes-editor form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    color: #334155;
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+
+    padding: 13px 15px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #d8e0eb;
+    border-radius: 10px;
+
+    background: #ffffff;
+    color: #172033;
+
+    font-family: inherit;
+    font-size: 14px;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.form-group input {
+    height: 46px;
+}
+
+.form-group textarea {
+    min-height: 150px;
+
+    resize: vertical;
+
+    line-height: 1.6;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #94a3b8;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #2563eb;
+
+    box-shadow:
+        0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* =========================================
+   EDITOR ACTIONS
+========================================= */
+
+.editor-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    margin-top: 4px;
+}
+
+.editor-actions button {
+    min-height: 42px;
+
+    padding: 0 20px;
+
+    border: none;
+    border-radius: 9px;
+
+    background: #2563eb;
+    color: #ffffff;
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.editor-actions button:hover:not(:disabled) {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+}
+
+.editor-actions button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.editor-actions .cancel-button {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.editor-actions .cancel-button:hover {
+    background: #e2e8f0;
+}
+
+/* =========================================
+   NOTES LIST
+========================================= */
+
+.notes-list-section {
+    margin-top: 10px;
+}
+
+.notes-list-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 20px;
+}
+
+.notes-list-header h2 {
+    margin: 0;
+
+    color: #172033;
+
+    font-size: 25px;
+    font-weight: 750;
+}
+
+.notes-list-header span {
+    padding: 6px 11px;
+
+    border-radius: 999px;
+
+    background: #eaf2ff;
+    color: #2563eb;
+
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/* =========================================
+   NOTES GRID
+========================================= */
+
+.notes-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 22px;
+}
+
+/* =========================================
+   NOTE CARD
+========================================= */
+
+.note-card {
+    min-height: 270px;
+
+    padding: 23px;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 8px 25px rgba(15, 23, 42, 0.06);
+
+    display: flex;
+    flex-direction: column;
+
+    box-sizing: border-box;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.note-card:hover {
+    transform: translateY(-4px);
+
+    box-shadow:
+        0 14px 32px rgba(15, 23, 42, 0.09);
+}
+
+/* =========================================
+   NOTE CARD HEADER
+========================================= */
+
+.note-card-header {
+    margin-bottom: 15px;
+}
+
+.note-skill {
+    display: inline-flex;
+
+    padding: 5px 10px;
+
+    margin-bottom: 9px;
+
+    border-radius: 999px;
+
+    background: #eff6ff;
+    color: #2563eb;
+
+    font-size: 11px;
+    font-weight: 750;
+
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.note-card h3 {
+    margin: 0;
+
+    color: #172033;
+
+    font-size: 19px;
+    line-height: 1.35;
+    font-weight: 750;
+}
+
+/* =========================================
+   NOTE CONTENT
+========================================= */
+
+.note-content {
+    flex: 1;
+
+    margin: 0 0 18px;
+
+    color: #64748b;
+
+    font-size: 14px;
+    line-height: 1.65;
+
+    white-space: pre-wrap;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
+}
+
+/* =========================================
+   NOTE DATE
+========================================= */
+
+.note-date {
+    padding-top: 13px;
+
+    border-top: 1px solid #edf1f6;
+
+    color: #94a3b8;
+
+    font-size: 12px;
+}
+
+/* =========================================
+   NOTE ACTIONS
+========================================= */
+
+.note-actions {
+    display: flex;
+    gap: 9px;
+
+    margin-top: 15px;
+}
+
+.note-actions button {
+    flex: 1;
+
+    min-height: 37px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: #eff6ff;
+    color: #2563eb;
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.note-actions button:hover {
+    background: #2563eb;
+    color: #ffffff;
+}
+
+.note-actions .delete-note {
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+.note-actions .delete-note:hover {
+    background: #dc2626;
+    color: #ffffff;
+}
+
+/* =========================================
+   EMPTY STATE
+========================================= */
+
+.notes-empty {
+    padding: 60px 25px;
+
+    border: 1px dashed #cbd5e1;
+    border-radius: 18px;
+
+    background: #ffffff;
+
+    text-align: center;
+}
+
+.notes-empty h3 {
+    margin: 0 0 8px;
+
+    color: #172033;
+
+    font-size: 20px;
+}
+
+.notes-empty p {
+    margin: 0;
+
+    color: #64748b;
+
+    font-size: 14px;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1100px) {
+    .notes-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 750px) {
+    .notes-page {
+        padding: 24px 18px 45px;
+    }
+
+    .notes-header h1 {
+        font-size: 28px;
+    }
+
+    .notes-editor {
+        padding: 21px;
+    }
+
+    .notes-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 500px) {
+    .notes-list-header {
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .editor-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .editor-actions button {
+        width: 100%;
+    }
+}

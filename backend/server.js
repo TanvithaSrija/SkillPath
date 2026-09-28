@@ -13,6 +13,9 @@ const skillRoutes = require("./routes/skillRoutes");
 const courseRoutes = require("./routes/courseRoutes");
 const lessonRoutes = require("./routes/lessonRoutes");
 const lessonProgressRoutes = require("./routes/lessonProgressRoutes");
+const skillProgressRoutes = require("./routes/skillProgressRoutes");
+const noteRoutes = require("./routes/noteRoutes");
+const quizRoutes = require("./routes/quizRoutes");
 const app = express();
 
 // Connect MongoDB
@@ -39,6 +42,9 @@ app.use(
   "/api/lesson-progress",
   lessonProgressRoutes
 );
+app.use("/api/skill-progress", skillProgressRoutes);
+app.use("/api/notes", noteRoutes);
+app.use("/api/quizzes", quizRoutes);
 // Test route
 app.get("/", (req, res) => {
     res.send("SkillPath Backend is Running!");

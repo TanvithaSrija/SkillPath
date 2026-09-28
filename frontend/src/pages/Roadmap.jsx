@@ -1,36 +1,55 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+
 import { getCareerGoalById } from "../services/careerService";
 import { getSkillsByCareerGoal } from "../services/skillService";
+import skillProgressService from "../services/skillProgressService";
+
+import { useAuth } from "../context/AuthContext";
 import RoadmapCard from "../components/RoadmapCard";
 
 function Roadmap() {
     const { careerGoalId } = useParams();
+    const { token } = useAuth();
 
     const [career, setCareer] = useState(null);
     const [skills, setSkills] = useState([]);
+    const [skillProgress, setSkillProgress] = useState([]);
+
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
     useEffect(() => {
         const fetchRoadmap = async () => {
             try {
-                const [careerData, skillsData] = await Promise.all([
-                    getCareerGoalById(careerGoalId),
-                    getSkillsByCareerGoal(careerGoalId)
-                ]);
+                const [careerData, skillsData, progressData] =
+                    await Promise.all([
+                        getCareerGoalById(careerGoalId),
+                        getSkillsByCareerGoal(careerGoalId),
+                        skillProgressService.getMySkillProgress(token),
+                    ]);
 
                 setCareer(careerData);
                 setSkills(skillsData);
+                setSkillProgress(
+                    progressData.progress || []
+                );
             } catch (error) {
-                setError(error.message);
+                console.error(error);
+                setError(
+                    error.response?.data?.message ||
+                    error.message ||
+                    "Failed to load roadmap"
+                );
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchRoadmap();
-    }, [careerGoalId]);
+        if (token) {
+            fetchRoadmap();
+        }
+    }, [careerGoalId, token]);
 
     if (loading) {
         return (
@@ -77,18 +96,29 @@ function Roadmap() {
                 </div>
             )}
 
-            <h2>Skill Roadmap</h2>
+            <div className="roadmap-title-row">
+                <div>
+                    <h2>Skill Roadmap</h2>
+                    <p>
+                        Complete each skill and verify it through
+                        the quiz to unlock the next skill.
+                    </p>
+                </div>
+            </div>
 
             <div className="roadmap-list">
 
                 {skills.length === 0 ? (
-                    <p>No skills found for this career goal.</p>
+                    <p>
+                        No skills found for this career goal.
+                    </p>
                 ) : (
                     skills.map((skill, index) => (
                         <RoadmapCard
                             key={skill._id}
                             skill={skill}
                             index={index}
+                            skillProgress={skillProgress}
                         />
                     ))
                 )}
