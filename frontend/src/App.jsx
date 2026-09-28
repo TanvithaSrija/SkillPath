@@ -24,7 +24,9 @@ import CareerGoals from "./pages/CareerGoals";
 import CareerGoalDetails from "./pages/CareerGoalDetails";
 import Roadmap from "./pages/Roadmap";
 import SkillDetails from "./pages/SkillDetails";
-
+import Notes from "./pages/Notes";
+import Quiz from "./pages/Quiz";
+import Progress from "./pages/Progress";
 function App() {
     return (
         <BrowserRouter>
@@ -108,6 +110,25 @@ function App() {
                     <Route
                         path="/skills/:skillId"
                         element={<SkillDetails />}
+                    />
+                    <Route
+                        path="/notes"
+                        element={
+                            <Notes />
+                        }
+                    />
+
+                    <Route
+                        path="/notes/:skillId"
+                        element={ <Notes /> }
+                    />
+                    <Route
+                        path="/quiz/:skillId"
+                        element={<Quiz />}
+                    />
+                    <Route
+                        path="/progress"
+                        element={<Progress />}
                     />
 
                 </Route>

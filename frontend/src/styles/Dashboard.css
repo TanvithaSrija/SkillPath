@@ -1,43 +1,653 @@
-.dashboard-page {
-  min-height: 100vh;
-  background: #f5f7fb;
+/* =========================================================
+   MEMBER 4 - SKILL DASHBOARD
+========================================================= */
+
+.skill-dashboard-stats {
+  margin-top: 0;
 }
 
-/* =========================================
-   HERO
-========================================= */
 
-.dashboard-hero {
-  padding: 70px 8% 80px;
+/* =========================================================
+   CURRENT SKILL
+========================================================= */
+
+.current-skill-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  margin-bottom: 30px;
+  padding: 25px 28px;
+
   background: linear-gradient(
     135deg,
-    #eef3ff,
-    #f8faff
+    #ffffff,
+    #f5f8ff
   );
-  border-bottom: 1px solid #e4e9f2;
+
+  border: 1px solid #e1e7f2;
+  border-radius: 20px;
+
+  box-shadow:
+    0 8px 30px rgba(30, 50, 90, 0.06);
+}
+
+.current-skill-icon {
+  width: 58px;
+  height: 58px;
+
+  flex-shrink: 0;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 16px;
+
+  background: #eaf0ff;
+
+  font-size: 27px;
+}
+
+.current-skill-content {
+  flex: 1;
+}
+
+.current-skill-content > span {
+  color: #3157d5;
+
+  font-size: 10px;
+  font-weight: 800;
+
+  letter-spacing: 1px;
+}
+
+.current-skill-content h2 {
+  margin: 5px 0 3px;
+
+  color: #10203f;
+
+  font-size: 23px;
+}
+
+.current-skill-content p {
+  margin: 0 0 12px;
+
+  color: #64748b;
+
+  font-size: 13px;
+}
+
+.current-skill-progress {
+  width: 100%;
+  max-width: 520px;
+
+  height: 8px;
+
+  overflow: hidden;
+
+  border-radius: 999px;
+
+  background: #e7ebf3;
+}
+
+.current-skill-progress-fill {
+  height: 100%;
+
+  border-radius: inherit;
+
+  background: linear-gradient(
+    90deg,
+    #3157d5,
+    #5676df
+  );
+
+  transition: width 0.5s ease;
+}
+
+.current-skill-button {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 11px 17px;
+
+  border-radius: 10px;
+
+  background: #3157d5;
+
+  color: white;
+
+  text-decoration: none;
+
+  font-size: 12px;
+  font-weight: 750;
+
+  white-space: nowrap;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.current-skill-button:hover {
+  background: #274bc0;
+
+  color: white;
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   ANALYTICS
+========================================================= */
+
+.analytics-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 20px;
+
+  margin-bottom: 30px;
+}
+
+.analytics-card {
+  min-height: 390px;
+
+  padding: 26px;
+
+  background: white;
+
+  border: 1px solid #e5eaf2;
+
+  border-radius: 20px;
+
+  box-shadow:
+    0 10px 30px rgba(30, 50, 90, 0.05);
+
+  box-sizing: border-box;
+}
+
+.analytics-card-header {
+  display: flex;
+
+  align-items: flex-start;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
+  margin-bottom: 20px;
+}
+
+.analytics-card-header span {
+  color: #3157d5;
+
+  font-size: 10px;
+
+  font-weight: 800;
+
+  letter-spacing: 1px;
+}
+
+.analytics-card-header h2 {
+  margin: 6px 0;
+
+  color: #10203f;
+
+  font-size: 21px;
+}
+
+.analytics-card-header p {
+  margin: 0;
+
+  color: #64748b;
+
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   SKILL CHART
+========================================================= */
+
+.skill-chart-container {
+  width: 100%;
+
+  height: 275px;
+
+  position: relative;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+}
+
+.skill-chart-container canvas {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+
+/* =========================================================
+   WEEKLY CHART
+========================================================= */
+
+.weekly-chart-container {
+  width: 100%;
+
+  height: 280px;
+
+  position: relative;
+}
+
+.weekly-chart-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.weekly-hours-value {
+  display: flex;
+
+  align-items: baseline;
+
+  gap: 4px;
+
+  color: #3157d5;
+
+  font-size: 25px;
+
+  font-weight: 800;
+}
+
+.weekly-hours-value small {
+  color: #64748b;
+
+  font-size: 10px;
+
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   CHART EMPTY STATE
+========================================================= */
+
+.chart-empty {
+  width: 100%;
+
+  min-height: 230px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  text-align: center;
+}
+
+.chart-empty span {
+  font-size: 40px;
+
+  margin-bottom: 12px;
+}
+
+.chart-empty p {
+  max-width: 260px;
+
+  margin: 0;
+
+  color: #64748b;
+
+  font-size: 13px;
+
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   STUDY SUMMARY
+========================================================= */
+
+.study-summary-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  gap: 18px;
+
+  margin-bottom: 30px;
+}
+
+.study-summary-card {
+  padding: 22px;
+
+  background: white;
+
+  border: 1px solid #e5eaf2;
+
+  border-radius: 17px;
+
+  box-shadow:
+    0 8px 25px rgba(30, 50, 90, 0.05);
+}
+
+.study-summary-card span {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #64748b;
+
+  font-size: 10px;
+
+  font-weight: 800;
+
+  letter-spacing: 0.7px;
+}
+
+.study-summary-card strong {
+  display: inline-block;
+
+  margin-right: 5px;
+
+  color: #10203f;
+
+  font-size: 28px;
+}
+
+.study-summary-card small {
+  color: #94a3b8;
+
+  font-size: 11px;
+}
+
+
+/* =========================================================
+   DASHBOARD NOTES
+========================================================= */
+
+.dashboard-notes-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  gap: 18px;
+}
+
+.dashboard-note-card {
+  min-height: 220px;
+
+  padding: 20px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  background: white;
+
+  border: 1px solid #e5eaf2;
+
+  border-radius: 17px;
+
+  box-shadow:
+    0 8px 25px rgba(30, 50, 90, 0.05);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.dashboard-note-card:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 12px 28px rgba(30, 50, 90, 0.09);
+}
+
+.dashboard-note-top {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  margin-bottom: 13px;
+}
+
+.dashboard-note-skill {
+  padding: 5px 9px;
+
+  border-radius: 999px;
+
+  background: #eef3ff;
+
+  color: #3157d5;
+
+  font-size: 9px;
+
+  font-weight: 800;
+
+  text-transform: uppercase;
+}
+
+.dashboard-note-card h3 {
+  margin: 0 0 9px;
+
+  color: #10203f;
+
+  font-size: 16px;
+
+  line-height: 1.4;
+}
+
+.dashboard-note-card > p {
+  flex: 1;
+
+  margin: 0;
+
+  color: #667085;
+
+  font-size: 12px;
+
+  line-height: 1.6;
+
+  display: -webkit-box;
+
+  overflow: hidden;
+
+  -webkit-box-orient: vertical;
+
+  -webkit-line-clamp: 5;
+}
+
+.dashboard-note-footer {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 10px;
+
+  margin-top: 15px;
+
+  padding-top: 12px;
+
+  border-top: 1px solid #edf1f6;
+}
+
+.dashboard-note-footer span {
+  color: #98a2b3;
+
+  font-size: 10px;
+}
+
+.dashboard-note-footer a {
+  color: #3157d5;
+
+  font-size: 11px;
+
+  font-weight: 750;
+
+  text-decoration: none;
+}
+
+.dashboard-note-footer a:hover {
+  text-decoration: underline;
+}
+
+
+/* =========================================================
+   RESPONSIVE - MEMBER 4
+========================================================= */
+
+@media (max-width: 1000px) {
+
+  .analytics-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .study-summary-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .dashboard-notes-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+}
+
+
+@media (max-width: 700px) {
+
+  .current-skill-card {
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+  .current-skill-button {
+    width: 100%;
+  }
+
+  .study-summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-notes-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .analytics-card {
+    padding: 20px;
+  }
+
+  .weekly-hours-value {
+    font-size: 20px;
+  }
+
+}
+
+
+@media (max-width: 500px) {
+
+  .analytics-card-header {
+    flex-direction: column;
+  }
+
+  .weekly-hours-value {
+    align-self: flex-start;
+  }
+
+  .skill-chart-container {
+    height: 240px;
+  }
+
+  .weekly-chart-container {
+    height: 240px;
+  }
+
+}
+/* =========================================================
+   MEMBER 4 - PROFESSIONAL DASHBOARD REDESIGN
+   Paste at the END of Dashboard.css
+========================================================= */
+
+/* ---------- GLOBAL DASHBOARD RESET ---------- */
+
+.dashboard-page {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: #f6f8fc;
+  color: #172033;
+  box-sizing: border-box;
+}
+
+.dashboard-page *,
+.dashboard-page *::before,
+.dashboard-page *::after {
+  box-sizing: border-box;
+}
+
+/* ---------- HERO ---------- */
+
+.dashboard-hero {
+  width: 100%;
+  padding: 56px 24px 95px;
+  background:
+    radial-gradient(
+      circle at 85% 20%,
+      rgba(49, 87, 213, 0.12),
+      transparent 35%
+    ),
+    linear-gradient(
+      135deg,
+      #f5f8ff 0%,
+      #eef3ff 50%,
+      #f8faff 100%
+    );
+  border-bottom: 1px solid #e5eaf3;
 }
 
 .dashboard-hero-content {
-  max-width: 1100px;
-  margin: auto;
+  width: min(1180px, 100%);
+  margin: 0 auto;
 }
 
 .dashboard-badge {
-  display: inline-block;
-  padding: 8px 14px;
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 13px;
+  border: 1px solid #dbe4ff;
   border-radius: 999px;
-  background: #eaf0ff;
+  background: #ffffff;
   color: #3157d5;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.8px;
 }
 
 .dashboard-hero h1 {
-  margin: 20px 0 12px;
-  color: #10203f;
-  font-size: clamp(34px, 5vw, 54px);
-  line-height: 1.1;
+  margin: 18px 0 10px;
+  color: #101828;
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -1.2px;
 }
 
 .dashboard-hero h1 span {
@@ -45,256 +655,574 @@
 }
 
 .dashboard-hero p {
-  max-width: 700px;
+  max-width: 680px;
   margin: 0;
-  color: #64748b;
-  font-size: 17px;
+  color: #667085;
+  font-size: 16px;
   line-height: 1.7;
 }
 
-/* =========================================
-   CONTAINER
-========================================= */
+/* ---------- MAIN CONTAINER ---------- */
 
 .dashboard-container {
-  width: min(1100px, 90%);
-  margin: -35px auto 70px;
   position: relative;
+  z-index: 2;
+  width: min(1180px, calc(100% - 40px));
+  margin: -55px auto 70px;
 }
 
-/* =========================================
-   STATISTICS
-========================================= */
+/* ---------- ALL SECTIONS ---------- */
 
-.dashboard-stats {
+.dashboard-section,
+.dashboard-panel {
+  width: 100%;
+  margin-bottom: 32px;
+}
+
+.dashboard-section {
+  padding: 0;
+}
+
+.dashboard-panel {
+  padding: 30px;
+  border: 1px solid #e7ebf2;
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: 0 8px 28px rgba(16, 24, 40, 0.045);
+}
+
+/* ---------- STAT CARDS ---------- */
+
+.dashboard-stats,
+.skill-dashboard-stats {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 18px;
-  margin-bottom: 28px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.stat-card,
+.skill-stat-card {
+  min-width: 0;
+  padding: 22px;
+  border: 1px solid #e7ebf2;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 6px 22px rgba(16, 24, 40, 0.045);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.stat-card:hover,
+.skill-stat-card:hover {
+  transform: translateY(-2px);
+  border-color: #d7def2;
+  box-shadow: 0 10px 28px rgba(16, 24, 40, 0.08);
 }
 
 .stat-card {
   display: flex;
   align-items: center;
   gap: 15px;
-  padding: 22px;
-  background: white;
-  border: 1px solid #e5eaf2;
-  border-radius: 18px;
-  box-shadow: 0 8px 30px rgba(30, 50, 90, 0.06);
 }
 
 .stat-icon {
-  width: 48px;
-  height: 48px;
+  width: 46px;
+  height: 46px;
+  min-width: 46px;
   display: grid;
   place-items: center;
-  border-radius: 14px;
-  background: #eef3ff;
-  font-size: 22px;
+  border-radius: 13px;
+  background: #f0f4ff;
+  color: #3157d5;
+  font-size: 20px;
 }
 
 .stat-card span {
   display: block;
   margin-bottom: 5px;
-  color: #64748b;
-  font-size: 12px;
+  color: #667085;
+  font-size: 11px;
+  font-weight: 600;
 }
 
 .stat-card strong {
-  color: #10203f;
-  font-size: 25px;
-}
-
-/* =========================================
-   PANELS
-========================================= */
-
-.dashboard-panel,
-.dashboard-section {
-  margin-bottom: 30px;
-}
-
-.dashboard-panel {
-  padding: 32px;
-  background: white;
-  border: 1px solid #e5eaf2;
-  border-radius: 22px;
-  box-shadow: 0 10px 35px rgba(30, 50, 90, 0.05);
-}
-
-.panel-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 30px;
-}
-
-.panel-label,
-.section-label {
-  color: #3157d5;
-  font-size: 11px;
+  display: block;
+  color: #101828;
+  font-size: 24px;
   font-weight: 800;
-  letter-spacing: 1px;
 }
 
-.panel-header h2,
-.section-heading h2 {
-  margin: 7px 0;
-  color: #10203f;
-  font-size: 25px;
-}
+/* ---------- SKILL STAT CARDS ---------- */
 
-.panel-header p,
-.section-heading p {
-  margin: 0;
-  color: #64748b;
-}
-
-.overall-circle {
-  width: 100px;
-  height: 100px;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border: 8px solid #eaf0ff;
-  border-radius: 50%;
-}
-
-.overall-circle strong {
-  color: #3157d5;
-  font-size: 22px;
-}
-
-.overall-circle span {
-  color: #64748b;
-  font-size: 10px;
-}
-
-.large-progress {
-  height: 12px;
-  margin-top: 30px;
+.skill-stat-card {
+  position: relative;
   overflow: hidden;
-  border-radius: 999px;
-  background: #e8edf5;
 }
 
-.large-progress-fill {
-  height: 100%;
-  border-radius: inherit;
+.skill-stat-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
   background: #3157d5;
-  transition: width 0.5s ease;
 }
 
-/* =========================================
-   SECTION HEADER
-========================================= */
+.skill-stat-card span {
+  display: block;
+  margin-bottom: 7px;
+  color: #667085;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
 
-.section-heading {
+.skill-stat-card strong {
+  color: #101828;
+  font-size: 27px;
+  font-weight: 800;
+}
+
+/* ---------- SECTION HEADINGS ---------- */
+
+.section-heading,
+.panel-header {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
   gap: 20px;
-  margin-bottom: 18px;
+  margin-bottom: 20px;
+}
+
+.section-label,
+.panel-label {
+  display: block;
+  margin-bottom: 7px;
+  color: #3157d5;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+}
+
+.section-heading h2,
+.panel-header h2 {
+  margin: 0 0 7px;
+  color: #101828;
+  font-size: 25px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+}
+
+.section-heading p,
+.panel-header p {
+  margin: 0;
+  color: #667085;
+  font-size: 14px;
+  line-height: 1.6;
 }
 
 .view-all-link {
+  flex-shrink: 0;
+  color: #3157d5;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.view-all-link:hover {
+  text-decoration: underline;
+}
+
+/* ---------- CURRENT SKILL ---------- */
+
+.current-skill-card {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 26px;
+  border: 1px solid #dfe5f2;
+  border-radius: 20px;
+  background:
+    linear-gradient(
+      135deg,
+      #ffffff 0%,
+      #f8faff 100%
+    );
+  box-shadow: 0 8px 28px rgba(16, 24, 40, 0.05);
+}
+
+.current-skill-icon {
+  width: 62px;
+  height: 62px;
+  min-width: 62px;
+  display: grid;
+  place-items: center;
+  border-radius: 17px;
+  background: #eef3ff;
+  color: #3157d5;
+  font-size: 27px;
+}
+
+.current-skill-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.current-skill-content span {
+  display: block;
+  margin-bottom: 5px;
+  color: #3157d5;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.current-skill-content h3 {
+  margin: 0 0 7px;
+  color: #101828;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.current-skill-content p {
+  margin: 0;
+  color: #667085;
+  font-size: 13px;
+}
+
+.current-skill-progress {
+  margin-top: 16px;
+}
+
+.current-skill-progress-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 7px;
+  color: #667085;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.current-skill-progress-header strong {
+  color: #3157d5;
+}
+
+.current-skill-progress-bar {
+  width: 100%;
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e8edf6;
+}
+
+.current-skill-progress-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    #3157d5,
+    #5b7bea
+  );
+  transition: width 0.4s ease;
+}
+
+.current-skill-button {
+  flex-shrink: 0;
+  padding: 11px 17px;
+  border-radius: 10px;
+  background: #3157d5;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: 0.2s ease;
+}
+
+.current-skill-button:hover {
+  background: #2648c4;
+  transform: translateY(-1px);
+}
+
+/* ---------- ANALYTICS ---------- */
+
+.analytics-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 18px;
+  width: 100%;
+}
+
+.analytics-card {
+  min-width: 0;
+  min-height: 330px;
+  padding: 25px;
+  border: 1px solid #e7ebf2;
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: 0 7px 25px rgba(16, 24, 40, 0.045);
+}
+
+.analytics-card-header {
+  margin-bottom: 18px;
+}
+
+.analytics-card-header span {
+  display: block;
+  margin-bottom: 5px;
+  color: #3157d5;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.analytics-card-header h3 {
+  margin: 0;
+  color: #101828;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.skill-chart-container {
+  position: relative;
+  width: 100%;
+  height: 245px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.weekly-chart-container {
+  position: relative;
+  width: 100%;
+  height: 245px;
+}
+
+.weekly-hours-value {
+  margin-top: 12px;
+  color: #3157d5;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.chart-empty {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #98a2b3;
+  font-size: 13px;
+  text-align: center;
+}
+
+/* ---------- STUDY SUMMARY ---------- */
+
+.study-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.study-summary-card {
+  padding: 21px;
+  border: 1px solid #e7ebf2;
+  border-radius: 17px;
+  background: #ffffff;
+  box-shadow: 0 5px 20px rgba(16, 24, 40, 0.04);
+}
+
+.study-summary-card span {
+  display: block;
+  margin-bottom: 9px;
+  color: #667085;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.study-summary-card strong {
+  color: #101828;
+  font-size: 24px;
+  font-weight: 800;
+}
+
+/* ---------- NOTES ---------- */
+
+.dashboard-notes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.dashboard-note-card {
+  min-width: 0;
+  min-height: 170px;
+  display: flex;
+  flex-direction: column;
+  padding: 19px;
+  border: 1px solid #e7ebf2;
+  border-radius: 17px;
+  background: #ffffff;
+  box-shadow: 0 5px 20px rgba(16, 24, 40, 0.04);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.dashboard-note-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(16, 24, 40, 0.07);
+}
+
+.dashboard-note-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.dashboard-note-skill {
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: #eef3ff;
+  color: #3157d5;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.dashboard-note-card h3 {
+  margin: 0 0 9px;
+  color: #101828;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.dashboard-note-card p {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 0;
+  color: #667085;
+  font-size: 12px;
+  line-height: 1.6;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.dashboard-note-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 15px;
+  border-top: 1px solid #edf0f5;
+  color: #98a2b3;
+  font-size: 10px;
+}
+
+.dashboard-note-footer a {
   color: #3157d5;
   font-weight: 700;
   text-decoration: none;
 }
 
-/* =========================================
-   CONTINUE CARDS
-========================================= */
+/* ---------- COURSE CARDS ---------- */
+
+.course-dashboard-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.course-dashboard-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #e5e9f1;
+  border-radius: 19px;
+  background: #ffffff;
+  box-shadow: 0 7px 24px rgba(16, 24, 40, 0.045);
+  transition: 0.2s ease;
+}
+
+.course-dashboard-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(16, 24, 40, 0.08);
+}
+
+.course-dashboard-image {
+  height: 175px;
+  overflow: hidden;
+  background: #eef3ff;
+}
+
+.course-dashboard-image img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.course-dashboard-content {
+  padding: 21px;
+}
+
+.course-dashboard-content h3 {
+  margin: 0;
+  color: #101828;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.course-dashboard-content > p {
+  margin: 9px 0 18px;
+  color: #667085;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+/* ---------- RESOURCE CARDS ---------- */
 
 .continue-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 18px;
 }
 
 .continue-card {
-  padding: 22px;
-  background: white;
-  border: 1px solid #e5eaf2;
+  min-width: 0;
+  padding: 21px;
+  border: 1px solid #e7ebf2;
   border-radius: 18px;
-  box-shadow: 0 8px 25px rgba(30, 50, 90, 0.05);
+  background: #ffffff;
+  box-shadow: 0 6px 22px rgba(16, 24, 40, 0.04);
+  transition: 0.2s ease;
 }
 
-.continue-card-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.resource-icon {
-  width: 45px;
-  height: 45px;
-  display: grid;
-  place-items: center;
-  border-radius: 12px;
-  background: #eef3ff;
-  font-size: 21px;
-}
-
-.progress-percent {
-  color: #3157d5;
-  font-weight: 800;
+.continue-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(16, 24, 40, 0.07);
 }
 
 .continue-card h3 {
-  margin: 18px 0 10px;
-  color: #10203f;
-  font-size: 18px;
+  color: #101828;
 }
 
-.continue-meta {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 18px;
+.resource-icon {
+  background: #eef3ff;
 }
 
-.continue-meta span {
-  padding: 6px 9px;
-  border-radius: 7px;
-  background: #f1f4f8;
-  color: #53627a;
-  font-size: 11px;
-}
-
-.small-progress {
-  height: 7px;
-  overflow: hidden;
-  border-radius: 999px;
-  background: #e8edf5;
-}
-
-.small-progress-fill {
-  height: 100%;
-  border-radius: inherit;
-  background: #3157d5;
-}
-
-.continue-footer {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 13px;
-  color: #64748b;
-  font-size: 12px;
-}
-
-.continue-footer a {
-  color: #3157d5;
-  font-weight: 700;
-  text-decoration: none;
-}
-
-/* =========================================
-   COMPLETED
-========================================= */
+/* ---------- COMPLETED LIST ---------- */
 
 .completed-list {
   display: grid;
@@ -302,492 +1230,419 @@
 }
 
 .completed-card {
+  min-width: 0;
   display: flex;
   align-items: center;
   gap: 15px;
-  padding: 17px 20px;
-  background: white;
-  border: 1px solid #e5eaf2;
+  padding: 17px 19px;
+  border: 1px solid #e7ebf2;
   border-radius: 15px;
-}
-
-.completed-check {
-  width: 38px;
-  height: 38px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  background: #eaf8ef;
-  color: #16803d;
-  font-weight: 800;
+  background: #ffffff;
+  box-shadow: 0 4px 16px rgba(16, 24, 40, 0.035);
 }
 
 .completed-info {
-  flex: 1;
+  min-width: 0;
 }
 
 .completed-info h3 {
-  margin: 0 0 4px;
-  color: #10203f;
-  font-size: 15px;
+  color: #101828;
 }
 
 .completed-info p {
-  margin: 0;
-  color: #64748b;
-  font-size: 12px;
+  color: #667085;
 }
 
-.completed-badge {
-  padding: 7px 11px;
-  border-radius: 999px;
-  background: #eaf8ef;
-  color: #16803d;
-  font-size: 11px;
-  font-weight: 700;
-}
-
-/* =========================================
-   CAREER GOAL
-========================================= */
+/* ---------- CAREER GOAL ---------- */
 
 .career-goal-card {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 28px;
-  margin-bottom: 30px;
-  background: linear-gradient(
-    135deg,
-    #10203f,
-    #3157d5
-  );
-  border-radius: 22px;
-  color: white;
+  width: 100%;
+  margin-bottom: 32px;
+  padding: 27px;
+  border-radius: 20px;
+  background:
+    linear-gradient(
+      135deg,
+      #101828 0%,
+      #1d326b 50%,
+      #3157d5 100%
+    );
+  box-shadow: 0 12px 32px rgba(49, 87, 213, 0.16);
 }
 
-.career-goal-icon {
-  width: 55px;
-  height: 55px;
-  display: grid;
-  place-items: center;
-  flex-shrink: 0;
-  border-radius: 15px;
-  background: rgba(255, 255, 255, 0.14);
-  font-size: 25px;
+/* ---------- BUTTONS ---------- */
+
+.dashboard-primary-button,
+.profile-button {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
-.career-goal-content {
-  flex: 1;
+.dashboard-primary-button:hover,
+.profile-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 15px rgba(49, 87, 213, 0.15);
 }
 
-.career-goal-content > span {
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 1px;
-  opacity: 0.75;
-}
-
-.career-goal-content h2 {
-  margin: 5px 0;
-  font-size: 22px;
-}
-
-.career-goal-content p {
-  margin: 0;
-  opacity: 0.8;
-}
-
-.profile-button,
-.dashboard-primary-button {
-  display: inline-block;
-  padding: 11px 17px;
-  border-radius: 10px;
-  background: white;
-  color: #3157d5;
-  font-weight: 700;
-  text-decoration: none;
-}
-
-/* =========================================
-   EMPTY / LOADING / ERROR
-========================================= */
+/* ---------- EMPTY STATES ---------- */
 
 .empty-dashboard,
 .dashboard-message {
-  padding: 55px 20px;
-  text-align: center;
-  background: white;
-  border: 1px solid #e5eaf2;
+  width: 100%;
+  padding: 50px 25px;
+  border: 1px dashed #d8deea;
   border-radius: 18px;
-}
-
-.empty-dashboard-icon {
-  font-size: 40px;
+  background: #ffffff;
+  text-align: center;
 }
 
 .empty-dashboard h3 {
-  margin: 12px 0 7px;
-  color: #10203f;
+  color: #101828;
 }
 
 .empty-dashboard p {
-  margin-bottom: 20px;
-  color: #64748b;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  color: #667085;
 }
 
-.dashboard-loader {
-  width: 38px;
-  height: 38px;
-  margin: 0 auto 15px;
-  border: 4px solid #e5eaf2;
-  border-top-color: #3157d5;
-  border-radius: 50%;
-  animation: dashboard-spin 0.8s linear infinite;
-}
+/* ---------- MOBILE / TABLET ---------- */
 
-.dashboard-error h3 {
-  color: #b42318;
-}
+@media (max-width: 1050px) {
+  .dashboard-stats,
+  .skill-dashboard-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 
-.dashboard-error button {
-  padding: 10px 18px;
-  border: none;
-  border-radius: 9px;
-  background: #3157d5;
-  color: white;
-  cursor: pointer;
-}
+  .study-summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 
-@keyframes dashboard-spin {
-  to {
-    transform: rotate(360deg);
+  .dashboard-notes-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-/* =========================================
-   RESPONSIVE
-========================================= */
-
-@media (max-width: 900px) {
-  .dashboard-stats {
-    grid-template-columns: repeat(2, 1fr);
+@media (max-width: 850px) {
+  .analytics-grid {
+    grid-template-columns: 1fr;
   }
 
+  .course-dashboard-grid,
   .continue-grid {
     grid-template-columns: 1fr;
+  }
+
+  .current-skill-card {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .current-skill-content {
+    min-width: calc(100% - 85px);
+  }
+
+  .current-skill-button {
+    width: 100%;
+    text-align: center;
   }
 }
 
 @media (max-width: 650px) {
   .dashboard-hero {
-    padding: 50px 6% 70px;
+    padding: 42px 18px 82px;
   }
 
   .dashboard-container {
-    width: 92%;
+    width: calc(100% - 24px);
+    margin-top: -45px;
   }
 
-  .dashboard-stats {
+  .dashboard-stats,
+  .skill-dashboard-stats,
+  .study-summary-grid,
+  .dashboard-notes-grid {
     grid-template-columns: 1fr;
   }
 
+  .dashboard-panel {
+    padding: 21px;
+  }
+
+  .section-heading,
   .panel-header {
-    flex-direction: column;
     align-items: flex-start;
+    flex-direction: column;
   }
 
-  .section-heading {
-    flex-direction: column;
-    align-items: flex-start;
+  .current-skill-card {
+    padding: 20px;
   }
 
-  .career-goal-card {
-    flex-direction: column;
-    align-items: flex-start;
+  .current-skill-icon {
+    width: 52px;
+    height: 52px;
+    min-width: 52px;
   }
 
-  .profile-button {
+  .analytics-card {
+    min-height: 300px;
+    padding: 20px;
+  }
+
+  .skill-chart-container,
+  .weekly-chart-container {
+    height: 220px;
+  }
+
+  .completed-card {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .completed-card-actions {
     width: 100%;
-    text-align: center;
-  }
-}
-/* =========================================================
-   COURSE DASHBOARD
-========================================================= */
-
-.course-dashboard-grid {
-  display: grid;
-  grid-template-columns: repeat(
-    auto-fit,
-    minmax(320px, 1fr)
-  );
-  gap: 20px;
-}
-
-.course-dashboard-card {
-  overflow: hidden;
-  border: 1px solid #e2e7f0;
-  border-radius: 18px;
-  background: #ffffff;
-  box-shadow:
-    0 5px 18px rgba(20, 35, 70, 0.05);
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    border-color 0.2s ease;
-}
-
-.course-dashboard-card:hover {
-  border-color: #ccd6f4;
-  transform: translateY(-3px);
-  box-shadow:
-    0 12px 28px rgba(20, 35, 70, 0.09);
-}
-
-
-/* =========================================================
-   COURSE IMAGE
-========================================================= */
-
-.course-dashboard-image {
-  height: 155px;
-  overflow: hidden;
-  background: #eef2ff;
-}
-
-.course-dashboard-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.course-dashboard-placeholder {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  color: #3157d5;
-  font-size: 50px;
-}
-
-
-/* =========================================================
-   COURSE CONTENT
-========================================================= */
-
-.course-dashboard-content {
-  padding: 20px;
-}
-
-.course-dashboard-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-
-.course-dashboard-skill {
-  color: #3157d5;
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 0.7px;
-  text-transform: uppercase;
-}
-
-.course-dashboard-level {
-  padding: 4px 8px;
-  border-radius: 12px;
-  background: #f2f4f7;
-  color: #667085;
-  font-size: 9px;
-  font-weight: 700;
-}
-
-.course-dashboard-content h3 {
-  margin: 0;
-  color: #172033;
-  font-size: 17px;
-  line-height: 1.4;
-}
-
-.course-dashboard-content > p {
-  display: -webkit-box;
-  overflow: hidden;
-  margin: 8px 0 18px;
-  color: #667085;
-  font-size: 12px;
-  line-height: 1.55;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-}
-
-
-/* =========================================================
-   COURSE PROGRESS
-========================================================= */
-
-.course-dashboard-progress-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 7px;
-}
-
-.course-dashboard-progress-header span {
-  color: #667085;
-  font-size: 11px;
-  font-weight: 600;
-}
-
-.course-dashboard-progress-header strong {
-  color: #3157d5;
-  font-size: 12px;
-  font-weight: 800;
-}
-
-.course-dashboard-progress {
-  width: 100%;
-  height: 8px;
-  overflow: hidden;
-  border-radius: 20px;
-  background: #e8ecf4;
-}
-
-.course-dashboard-progress-fill {
-  height: 100%;
-  border-radius: 20px;
-  background: linear-gradient(
-    90deg,
-    #3157d5,
-    #5676df
-  );
-  transition: width 0.4s ease;
-}
-
-.course-dashboard-progress-info {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  margin-top: 8px;
-  color: #98a2b3;
-  font-size: 10px;
-}
-
-
-/* =========================================================
-   COURSE BUTTON
-========================================================= */
-
-.course-dashboard-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 17px;
-  padding: 11px 14px;
-  border-radius: 9px;
-  background: #3157d5;
-  color: #ffffff;
-  font-size: 12px;
-  font-weight: 750;
-  text-decoration: none;
-  transition:
-    background 0.2s ease,
-    transform 0.2s ease;
-}
-
-.course-dashboard-button:hover {
-  background: #274bc0;
-  color: #ffffff;
-  transform: translateY(-1px);
-}
-
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-
-@media (max-width: 700px) {
-
-  .course-dashboard-grid {
-    grid-template-columns: 1fr;
+    margin-left: 0;
+    justify-content: flex-start;
   }
 
   .course-dashboard-image {
-    height: 180px;
+    height: 160px;
+  }
+}
+
+@media (max-width: 450px) {
+  .dashboard-hero h1 {
+    font-size: 31px;
   }
 
-}
-.completed-courses-section {
-  margin-top: 32px;
-}
+  .dashboard-hero p {
+    font-size: 14px;
+  }
 
-.completed-courses-section .section-heading span {
-  color: #23834a;
-}
+  .stat-card,
+  .skill-stat-card {
+    padding: 18px;
+  }
 
-.completed-courses-section .section-heading h2 {
-  margin-bottom: 6px;
+  .dashboard-note-card {
+    min-height: 155px;
+  }
 }
+/* =========================================================
+   FINAL POLISH - CAREER GOAL + COMPLETED RESOURCES
+========================================================= */
 
-.completed-courses-section .section-heading p {
-  color: #667085;
-  margin-bottom: 20px;
-}
+/* ---------- CAREER GOAL ---------- */
 
-.completed-courses-section
-  .course-dashboard-progress-fill {
-  background: #23834a;
-}
-
-.completed-courses-section .course-dashboard-button {
-  background: #23834a;
-}
-
-.completed-courses-section .course-dashboard-button:hover {
-  background: #1b6f3e;
-}
-/* ============================================
-   COMPLETED RESOURCE ACTIONS
-============================================ */
-
-.completed-card-actions {
+.dashboard-page .career-goal-card {
+  position: relative;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  gap: 10px;
-  margin-left: auto;
-  flex-wrap: wrap;
+  gap: 22px;
+  width: 100%;
+  min-height: 185px;
+  padding: 32px 34px;
+  overflow: hidden;
+  border: none;
+  border-radius: 22px;
+  background: linear-gradient(
+    135deg,
+    #111c36 0%,
+    #1d3472 48%,
+    #3157d5 100%
+  );
+  color: #ffffff !important;
+  box-shadow: 0 14px 35px rgba(49, 87, 213, 0.18);
 }
 
-.completed-review-button {
+/* subtle background decoration */
+
+.dashboard-page .career-goal-card::after {
+  content: "";
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  right: -70px;
+  top: -100px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.07);
+  pointer-events: none;
+}
+
+.dashboard-page .career-goal-icon {
+  position: relative;
+  z-index: 1;
+  width: 62px;
+  height: 62px;
+  min-width: 62px;
+  display: grid;
+  place-items: center;
+  border-radius: 17px;
+  background: rgba(255, 255, 255, 0.13);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  font-size: 28px;
+}
+
+.dashboard-page .career-goal-content {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-width: 0;
+  color: #ffffff !important;
+}
+
+.dashboard-page .career-goal-content > span {
+  display: block;
+  margin-bottom: 7px;
+  color: rgba(255, 255, 255, 0.72) !important;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+.dashboard-page .career-goal-content h2 {
+  margin: 0 0 7px;
+  color: #ffffff !important;
+  font-size: 25px;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.dashboard-page .career-goal-content p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.78) !important;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.dashboard-page .career-goal-card .profile-button {
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 8px 14px;
-  border-radius: 8px;
-  background: #3157d5;
-  color: #ffffff;
-  text-decoration: none;
+  padding: 11px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  background: #ffffff !important;
+  color: #3157d5 !important;
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 800;
+  text-decoration: none;
+  white-space: nowrap;
   transition: all 0.2s ease;
 }
 
-.completed-review-button:hover {
-  background: #2647b8;
+.dashboard-page .career-goal-card .profile-button:hover {
+  background: #f1f4ff !important;
+  color: #2648c4 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 7px 18px rgba(0, 0, 0, 0.15);
+}
+
+/* ---------- COMPLETED RESOURCE ROW ---------- */
+
+.dashboard-page .completed-card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  width: 100%;
+  min-height: 88px;
+  padding: 18px 22px;
+}
+
+.dashboard-page .completed-check {
+  flex-shrink: 0;
+}
+
+.dashboard-page .completed-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.dashboard-page .completed-info h3 {
+  margin: 0 0 5px;
+  color: #101828 !important;
+  font-size: 16px;
+  font-weight: 750;
+}
+
+.dashboard-page .completed-info p {
+  margin: 0;
+  color: #667085 !important;
+  font-size: 12px;
+}
+
+.dashboard-page .completed-card-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.dashboard-page .completed-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #ecfdf3 !important;
+  color: #16803d !important;
+  font-size: 10px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.dashboard-page .completed-review-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 14px;
+  border-radius: 9px;
+  background: #3157d5 !important;
+  color: #ffffff !important;
+  font-size: 11px;
+  font-weight: 750;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.dashboard-page .completed-review-button:hover {
+  background: #2648c4 !important;
   transform: translateY(-1px);
 }
 
-.completed-review-button:active {
-  transform: translateY(0);
-}
+/* ---------- RESPONSIVE ---------- */
+
 @media (max-width: 700px) {
-  .completed-card-actions {
+
+  .dashboard-page .career-goal-card {
+    align-items: flex-start;
+    flex-direction: column;
+    min-height: auto;
+    padding: 25px;
+  }
+
+  .dashboard-page .career-goal-card .profile-button {
     width: 100%;
-    justify-content: flex-start;
+  }
+
+  .dashboard-page .completed-card {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .dashboard-page .completed-card-actions {
+    width: 100%;
     margin-left: 0;
-    margin-top: 10px;
+    justify-content: flex-start;
   }
 }
