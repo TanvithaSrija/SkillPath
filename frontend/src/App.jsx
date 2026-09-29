@@ -19,6 +19,7 @@ import LearningPlayer from "./pages/LearningPlayer";
 import Courses from "./pages/Courses";
 import CourseDetails from "./pages/CourseDetails";
 import LessonPlayer from "./pages/LessonPlayer";
+
 // Member 2 - Career Goals & Roadmap
 import CareerGoals from "./pages/CareerGoals";
 import CareerGoalDetails from "./pages/CareerGoalDetails";
@@ -27,12 +28,24 @@ import SkillDetails from "./pages/SkillDetails";
 import Notes from "./pages/Notes";
 import Quiz from "./pages/Quiz";
 import Progress from "./pages/Progress";
+
+// Member 5 - Administration
+import AdminProtectedRoute from "./components/AdminProtectedRoute";
+import AdminDashboard from "./pages/AdminDashboard";
+import AdminUsers from "./pages/AdminUsers";
+import AdminCareerGoals from "./pages/AdminCareerGoals";
+import AdminSkills from "./pages/AdminSkills";
+import AdminResources from "./pages/AdminResources";
+import AdminQuizzes from "./pages/AdminQuizzes";
+
+
 function App() {
     return (
         <BrowserRouter>
+
             <Routes>
 
-                {/* Public Routes */}
+                {/* ==================== PUBLIC ROUTES ==================== */}
 
                 <Route
                     path="/login"
@@ -43,19 +56,24 @@ function App() {
                     path="/signup"
                     element={<Signup />}
                 />
+
                 <Route
                     path="/courses"
                     element={<Courses />}
                 />
+
                 <Route
                     path="/courses/:id"
                     element={<CourseDetails />}
                 />
+
                 <Route
                     path="/lessons/:id"
                     element={<LessonPlayer />}
                 />
-                {/* Protected Routes */}
+
+
+                {/* ==================== PROTECTED USER ROUTES ==================== */}
 
                 <Route element={<ProtectedRoute />}>
 
@@ -63,22 +81,27 @@ function App() {
                         path="/profile"
                         element={<Profile />}
                     />
-                     <Route
+
+                    <Route
                         path="/resources"
                         element={<Resources />}
                     />
+
                     <Route
                         path="/dashboard"
                         element={<Dashboard />}
                     />
+
                     <Route
                         path="/resources/:id"
                         element={<ResourceDetails />}
                     />
+
                     <Route
                         path="/learn/:id"
                         element={<LearningPlayer />}
                     />
+
 
                     {/* Member 2 - Career Goals */}
 
@@ -111,21 +134,22 @@ function App() {
                         path="/skills/:skillId"
                         element={<SkillDetails />}
                     />
+
                     <Route
                         path="/notes"
-                        element={
-                            <Notes />
-                        }
+                        element={<Notes />}
                     />
 
                     <Route
                         path="/notes/:skillId"
-                        element={ <Notes /> }
+                        element={<Notes />}
                     />
+
                     <Route
                         path="/quiz/:skillId"
                         element={<Quiz />}
                     />
+
                     <Route
                         path="/progress"
                         element={<Progress />}
@@ -133,7 +157,45 @@ function App() {
 
                 </Route>
 
+
+                {/* ==================== MEMBER 5 - ADMIN ROUTES ==================== */}
+
+                <Route element={<AdminProtectedRoute />}>
+
+                    <Route
+                        path="/admin"
+                        element={<AdminDashboard />}
+                    />
+
+                    <Route
+                        path="/admin/users"
+                        element={<AdminUsers />}
+                    />
+
+                    <Route
+                        path="/admin/career-goals"
+                        element={<AdminCareerGoals />}
+                    />
+
+                    <Route
+                        path="/admin/skills"
+                        element={<AdminSkills />}
+                    />
+
+                    <Route
+                        path="/admin/resources"
+                        element={<AdminResources />}
+                    />
+
+                    <Route
+                        path="/admin/quizzes"
+                        element={<AdminQuizzes />}
+                    />
+
+                </Route>
+
             </Routes>
+
         </BrowserRouter>
     );
 }
