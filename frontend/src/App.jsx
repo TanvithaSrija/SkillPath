@@ -1,5 +1,5 @@
 import "./App.css";
-
+import Layout from "./components/Layout";
 import {
     BrowserRouter,
     Routes,
@@ -57,7 +57,9 @@ function App() {
                 />
                 {/* Protected Routes */}
 
-                <Route element={<ProtectedRoute />}>
+               <Route
+                element={<ProtectedRoute />}>
+    <Route element={<Layout />}>
 
                     <Route
                         path="/profile"
@@ -86,7 +88,7 @@ function App() {
                         path="/"
                         element={
                             <Navigate
-                                to="/career-goals"
+                                to="/dashboard"
                                 replace
                             />
                         }
@@ -126,13 +128,13 @@ function App() {
                         path="/quiz/:skillId"
                         element={<Quiz />}
                     />
-                    <Route
-                        path="/progress"
-                        element={<Progress />}
-                    />
+                <Route
+    path="/progress"
+    element={<Progress />}
+/>
 
-                </Route>
-
+</Route>
+</Route>
             </Routes>
         </BrowserRouter>
     );
