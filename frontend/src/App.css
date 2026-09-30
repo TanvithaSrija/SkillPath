@@ -635,3 +635,26 @@
         width: 100%;
     }
 }
+/* =========================
+   NAVBAR
+   ========================= */
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+}
+
+.nav-links a:hover {
+    color: #2563eb;
+}
+
+.nav-links .logout-button {
+    margin-left: 4px;
+}
