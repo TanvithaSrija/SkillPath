@@ -1,7 +1,8 @@
 const Quiz = require("../models/Quiz");
 const SkillProgress = require("../models/SkillProgress");
 
-// GET quiz for a skill
+// ==================== GET QUIZ FOR A SKILL ====================
+
 const getQuizBySkill = async (req, res) => {
   try {
     const { skillId } = req.params;
@@ -15,7 +16,6 @@ const getQuizBySkill = async (req, res) => {
       });
     }
 
-    // Never send correct answers to frontend
     const safeQuestions = quiz.questions.map(
       (question) => ({
         _id: question._id,
@@ -44,7 +44,9 @@ const getQuizBySkill = async (req, res) => {
   }
 };
 
-// Submit quiz
+
+// ==================== SUBMIT QUIZ ====================
+
 const submitQuiz = async (req, res) => {
   try {
     const { skillId, answers } = req.body;
@@ -103,7 +105,6 @@ const submitQuiz = async (req, res) => {
     const passed =
       score >= quiz.passingMarks;
 
-    // Find or create skill progress
     let skillProgress =
       await SkillProgress.findOne({
         userId: req.user.userId,
@@ -164,7 +165,192 @@ const submitQuiz = async (req, res) => {
   }
 };
 
+
+// ==================== ADMIN: GET ALL QUIZZES ====================
+
+const getAllQuizzes = async (req, res) => {
+  try {
+    const quizzes = await Quiz.find().sort({
+      createdAt: -1,
+    });
+
+    res.status(200).json({
+      success: true,
+      count: quizzes.length,
+      quizzes,
+    });
+  } catch (error) {
+    console.error("Get all quizzes error:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch quizzes",
+    });
+  }
+};
+
+
+// ==================== ADMIN: GET QUIZ BY ID ====================
+
+const getQuizById = async (req, res) => {
+  try {
+    const quiz = await Quiz.findById(req.params.id);
+
+    if (!quiz) {
+      return res.status(404).json({
+        success: false,
+        message: "Quiz not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      quiz,
+    });
+  } catch (error) {
+    console.error("Get quiz by ID error:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch quiz",
+    });
+  }
+};
+
+
+// ==================== ADMIN: CREATE QUIZ ====================
+
+const createQuiz = async (req, res) => {
+  try {
+    const {
+      skillId,
+      questions,
+      passingMarks,
+      timeLimit,
+    } = req.body;
+
+    if (
+      !skillId ||
+      !Array.isArray(questions) ||
+      questions.length < 10 ||
+      passingMarks === undefined ||
+      timeLimit === undefined
+    ) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "skillId, at least 10 questions, passingMarks and timeLimit are required",
+      });
+    }
+
+    const existingQuiz = await Quiz.findOne({
+      skillId,
+    });
+
+    if (existingQuiz) {
+      return res.status(400).json({
+        success: false,
+        message: "Quiz already exists for this skill",
+      });
+    }
+
+    const quiz = await Quiz.create({
+      skillId,
+      questions,
+      passingMarks,
+      timeLimit,
+    });
+
+    res.status(201).json({
+      success: true,
+      message: "Quiz created successfully",
+      quiz,
+    });
+  } catch (error) {
+    console.error("Create quiz error:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Failed to create quiz",
+    });
+  }
+};
+
+
+// ==================== ADMIN: UPDATE QUIZ ====================
+
+const updateQuiz = async (req, res) => {
+  try {
+    const quiz = await Quiz.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    if (!quiz) {
+      return res.status(404).json({
+        success: false,
+        message: "Quiz not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Quiz updated successfully",
+      quiz,
+    });
+  } catch (error) {
+    console.error("Update quiz error:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Failed to update quiz",
+    });
+  }
+};
+
+
+// ==================== ADMIN: DELETE QUIZ ====================
+
+const deleteQuiz = async (req, res) => {
+  try {
+    const quiz = await Quiz.findByIdAndDelete(
+      req.params.id
+    );
+
+    if (!quiz) {
+      return res.status(404).json({
+        success: false,
+        message: "Quiz not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Quiz deleted successfully",
+    });
+  } catch (error) {
+    console.error("Delete quiz error:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Failed to delete quiz",
+    });
+  }
+};
+
+
 module.exports = {
   getQuizBySkill,
   submitQuiz,
+
+  // Admin functions
+  getAllQuizzes,
+  getQuizById,
+  createQuiz,
+  updateQuiz,
+  deleteQuiz,
 };
